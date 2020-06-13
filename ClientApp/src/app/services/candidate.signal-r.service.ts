@@ -21,6 +21,7 @@ export class CandidateSignalRService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Debug)
       .withUrl(this.candidateUrl)
       .build();
     this.hubConnection
