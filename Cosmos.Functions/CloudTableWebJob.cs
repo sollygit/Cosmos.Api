@@ -28,12 +28,17 @@ namespace Cosmos.Functions
         }
 
         [FunctionName("negotiate")]
-        public SignalRConnectionInfo GetSignalRInfo(
+        public IActionResult GetSignalRInfo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
-            [SignalRConnectionInfo(HubName = "board")] SignalRConnectionInfo connectionInfo)
+            [SignalRConnectionInfo(HubName = "board")] SignalRConnectionInfo connectionInfo,
+            ILogger logger)
         {
             if (req == null) return null;
-            return connectionInfo;
+
+            logger.LogInformation("Negotiate trigger function processed a request.");
+            return connectionInfo != null ? 
+                (ActionResult)new OkObjectResult(connectionInfo) :
+                new NotFoundObjectResult("SignalR could not load");
         }
 
         [FunctionName("sendNotice")]
