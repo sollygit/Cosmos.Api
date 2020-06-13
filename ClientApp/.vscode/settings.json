@@ -1,0 +1,4 @@
+{
+    "appService.deploySubpath": "dist",
+    "appService.defaultWebAppToDeploy": "/subscriptions/8c1b5dd9-3ab7-4ee7-89f4-08911a5ff0e2/resourceGroups/CosmosResourceGroup/providers/Microsoft.Web/sites/Cosmos-App"
+}

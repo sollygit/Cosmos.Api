@@ -1,0 +1,7 @@
+<h4>Candidate Details</h4>
+<ng-container *ngIf="candidate; else loading">
+    <pre [@fadeInOut] class="full-profile">{{ candidate | json }}</pre>
+</ng-container>
+<ng-template #loading>
+    <mat-progress-bar *ngIf="!candidate" mode="indeterminate"></mat-progress-bar>
+</ng-template>
