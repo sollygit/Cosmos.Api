@@ -1,0 +1,16 @@
+<div style="display: block" *ngIf='chartData'>
+    <canvas baseChart
+    [datasets]="chartData"
+    [labels]="chartLabels"
+    [options]="chartOptions"
+    [legend]="chartLegend"
+    [chartType]="chartType"
+    [colors]="colors"
+    (chartClick)="chartClicked($event)"></canvas>
+</div>
+<br><br>
+<ul>
+  <li *ngFor='let data of chartData'>
+    <strong>Label: </strong> {{data.label}} - <strong>Value: </strong> {{data.data[0]}}
+  </li>
+</ul>
