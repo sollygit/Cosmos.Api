@@ -1,4 +1,5 @@
 ﻿using Cosmos.Api.HubConfig;
+using Cosmos.Api.Models;
 using Cosmos.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;

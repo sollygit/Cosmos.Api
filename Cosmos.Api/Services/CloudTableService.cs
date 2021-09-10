@@ -1,4 +1,5 @@
-﻿using Cosmos.Common;
+﻿using Cosmos.Api.Models;
+using Cosmos.Common;
 using Cosmos.Model;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +22,8 @@ namespace Cosmos.Api.Services
     {
         readonly IConfiguration _configuration;
         readonly string _storageConnectionString;
-        const string TABLE_BOARD = "board";
-        const string PARTITION_KEY = "september";
+        const string TABLE_NAME = "board";
+        const string PARTITION_KEY = "September";
         CloudTable table;
 
         public CloudTableService(IConfiguration configuration)
@@ -31,7 +32,7 @@ namespace Cosmos.Api.Services
             _storageConnectionString = _configuration["StorageConnectionString"];
 
             AsyncHelper.RunAsync(async () => {
-                await CreateIfNotExistsAsync(TABLE_BOARD);
+                await CreateIfNotExistsAsync(TABLE_NAME);
             });
         }
 
@@ -114,21 +115,5 @@ namespace Cosmos.Api.Services
                 new Chart { Data = new int[] { audienceCount.IntValue }, Label = "Users" },
             };
         }
-    }
-
-    public class DataEntity : TableEntity
-    {
-        public DataEntity()
-        {
-        }
-
-        public DataEntity(string partitionKey, string rowKey)
-        {
-            PartitionKey = partitionKey;
-            RowKey = rowKey;
-        }
-
-        public int IntValue { get; set; }
-        public string StringValue { get; set; }
     }
 }

@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Functions", "Cosmos.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Common", "Cosmos.Common\Cosmos.Common.csproj", "{E6A7715F-43B7-4E55-AB93-AE7F4D4A457F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Api", "Cosmos.Api\Cosmos.Api.csproj", "{979C26D3-E066-4CD9-893D-50B7CD5CA3DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.Api", "Cosmos.Api\Cosmos.Api.csproj", "{979C26D3-E066-4CD9-893D-50B7CD5CA3DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.UnitTests", "Cosmos.UnitTests\Cosmos.UnitTests.csproj", "{6895F1F8-DD62-4192-AAAD-50E9BAB48D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.UnitTests", "Cosmos.UnitTests\Cosmos.UnitTests.csproj", "{6895F1F8-DD62-4192-AAAD-50E9BAB48D37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
