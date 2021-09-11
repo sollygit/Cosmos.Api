@@ -17,15 +17,15 @@ namespace Cosmos.Functions
             _client = httpClientFactory.CreateClient();
         }
 
-        [FunctionName("transferBoardData")]
-        public async Task TransferBoardData(
+        [FunctionName("timerTriggerBoardData")]
+        public async Task TimerTriggerBoardData(
             [TimerTrigger("*/30 * * * * *")] TimerInfo myTimer,
             ILogger logger)
         {
             if (myTimer == null) await Task.FromResult(HttpStatusCode.BadRequest);
 
-            logger.LogInformation($"transferBoardData on {DateTime.Now}");
-            var response = await _client.GetAsync($"{_cosmosApi}/api/board"); // Invoke 'transferBoardData'
+            logger.LogInformation($"timerTriggerBoardData on {DateTime.Now}");
+            var response = await _client.GetAsync($"{_cosmosApi}/api/board"); // Invoke 'timerTriggerBoardData'
             logger.LogInformation($"SignalR Board Response: {response.StatusCode}");
 
             await Task.FromResult(response.StatusCode);

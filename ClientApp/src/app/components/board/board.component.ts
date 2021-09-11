@@ -45,7 +45,7 @@ export class BoardComponent implements OnInit {
 
   startConnection() {
     this.signalRService.startConnection();
-    this.signalRService.addTransferBoardDataListener();
+    this.signalRService.addTimerTriggerBoardDataListener();
     this.startHttpRequest();
   }
 

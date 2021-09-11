@@ -39,11 +39,11 @@ namespace Cosmos.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> TransferBoardData()
+        public async Task<IActionResult> TimerTriggerBoardData()
         {
             var boardData = await _cloudTableService.GetBoardData();
-            await _hub.Clients.All.SendAsync("transferBoardData", boardData);
-            return Ok(new { Message = "transferBoardData success" });
+            await _hub.Clients.All.SendAsync("timerTriggerBoardData", boardData);
+            return Ok(new { Message = "timerTriggerBoardData success" });
         }
     }
 }

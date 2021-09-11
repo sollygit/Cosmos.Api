@@ -31,8 +31,8 @@ export class BoardSignalRService {
       .catch(err => console.log(`Error while starting connection: ${err}`));
   }
 
-  public addTransferBoardDataListener = () => {
-    this.hubConnection.on('transferBoardData', (boardData: Chart[]) => {
+  public addTimerTriggerBoardDataListener = () => {
+    this.hubConnection.on('timerTriggerBoardData', (boardData: Chart[]) => {
       this.boardData = boardData;
       console.log(boardData);
     });
