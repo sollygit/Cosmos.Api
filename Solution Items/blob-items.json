@@ -1,0 +1,146 @@
+[
+  {
+    "lastName": "Gutkowski",
+    "firstName": "Granville",
+    "fullName": "Granville Gutkowski",
+    "email": "courtney29@hotmail.com",
+    "balance": 5520.28,
+    "points": 97,
+    "isActive": true,
+    "technologies": [
+      "Angular",
+      "Azure",
+      "C#"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "DuBuque",
+    "firstName": "Nya",
+    "fullName": "Nya DuBuque",
+    "email": "kaela90@yahoo.com",
+    "balance": 1429.86,
+    "points": 15,
+    "isActive": true,
+    "technologies": [
+      "C#",
+      "Azure"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Spinka",
+    "firstName": "Miller",
+    "fullName": "Miller Spinka",
+    "email": "connor.braun@hotmail.com",
+    "balance": 5120.62,
+    "points": 25,
+    "isActive": true,
+    "technologies": [
+      "Azure",
+      "SQL",
+      "MVC"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Kautzer",
+    "firstName": "Violet",
+    "fullName": "Violet Kautzer",
+    "email": "gabriella.russel26@yahoo.com",
+    "balance": 7137.61,
+    "points": 94,
+    "isActive": true,
+    "technologies": [
+      "MVC",
+      "Angular"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Schaefer",
+    "firstName": "Gunner",
+    "fullName": "Gunner Schaefer",
+    "email": "samara29@gmail.com",
+    "balance": 5508.75,
+    "points": 45,
+    "isActive": true,
+    "technologies": [
+      "C#",
+      "Angular"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Spencer",
+    "firstName": "Omer",
+    "fullName": "Omer Spencer",
+    "email": "lorenz.purdy@yahoo.com",
+    "balance": 9465.07,
+    "points": 47,
+    "isActive": true,
+    "technologies": [
+      "MVC",
+      "Angular"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Kub",
+    "firstName": "Leatha",
+    "fullName": "Leatha Kub",
+    "email": "tanya.muller@yahoo.com",
+    "balance": 5076,
+    "points": 99,
+    "isActive": true,
+    "technologies": [
+      "MVC",
+      "C#"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Rosenbaum",
+    "firstName": "Oral",
+    "fullName": "Oral Rosenbaum",
+    "email": "wilber.paucek@yahoo.com",
+    "balance": 3558.89,
+    "points": 51,
+    "isActive": true,
+    "technologies": [
+      "Angular",
+      "MVC",
+      "Blazor"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "McGlynn",
+    "firstName": "Dameon",
+    "fullName": "Dameon McGlynn",
+    "email": "tomas.goyette@gmail.com",
+    "balance": 1988.3,
+    "points": 73,
+    "isActive": true,
+    "technologies": [
+      "MVC",
+      "Azure",
+      "Blazor"
+    ],
+    "type": "Candidate"
+  },
+  {
+    "lastName": "Fritsch",
+    "firstName": "Cordia",
+    "fullName": "Cordia Fritsch",
+    "email": "palma_conn@yahoo.com",
+    "balance": 6325.74,
+    "points": 66,
+    "isActive": true,
+    "technologies": [
+      "Angular",
+      "C#"
+    ],
+    "type": "Candidate"
+  }
+]

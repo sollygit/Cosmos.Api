@@ -1,11 +1,12 @@
 ﻿using Cosmos.Api.HubConfig;
-using Cosmos.Api.Interfaces;
+using Cosmos.Api.Services;
 using Cosmos.Common;
 using Cosmos.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cosmos.Api.Controllers
@@ -28,7 +29,7 @@ namespace Cosmos.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> SendCandidates()
         {
-            var candidates = await _candidateService.GetAll();
+            var candidates = await _candidateService.GetAsync();
             await _hub.Clients.All.SendAsync("sendCandidates", candidates);
             return Ok(new { Message = "sendCandidates success" });
         }
@@ -36,7 +37,7 @@ namespace Cosmos.Api.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> All()
         {
-            var candidates = await _candidateService.GetAll();
+            var candidates = await _candidateService.GetAsync();
             return new ObjectResult(candidates);
         }
 
@@ -48,7 +49,7 @@ namespace Cosmos.Api.Controllers
                 return BadRequest();
             }
 
-            var candidate = await _candidateService.Get(id);
+            var candidate = await _candidateService.GetAsync(id);
 
             if (candidate == null)
             {
@@ -80,22 +81,35 @@ namespace Cosmos.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add([FromBody] Candidate candidate)
+        public async Task<IActionResult> Create([FromBody] Candidate candidate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _candidateService.Add(candidate);
+            var result = await _candidateService.CreateAsync(candidate);
 
             return new ObjectResult(result);
         }
 
-        [HttpPost("[action]/{count}")]
-        public async Task<IActionResult> Generate(int count)
+        [HttpPost("[action]/Collection")]
+        public async Task<IActionResult> Create([FromBody] IEnumerable<Candidate> candidates)
         {
-            var result = await _candidateService.Generate(count);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _candidateService.CreateAsync(candidates);
+
+            return new ObjectResult(result);
+        }
+
+        [HttpPost("[action]/{count}/{saveToDatabase}")]
+        public async Task<IActionResult> Generate(int count, bool saveToDatabase = false)
+        {
+            var result = await _candidateService.CreateAsync(count, saveToDatabase);
             return new ObjectResult(result);
         }
 
@@ -130,14 +144,14 @@ namespace Cosmos.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var original = await _candidateService.Get(id);
+            var original = await _candidateService.GetAsync(id);
 
             if (original == null)
             {
                 return NotFound(id);
             }
 
-            var result = await _candidateService.Update(candidate.Id, original.LastName, candidate);
+            var result = await _candidateService.UpdateAsync(candidate.Id, original.LastName, candidate);
 
             return new ObjectResult(result);
         }
@@ -150,7 +164,7 @@ namespace Cosmos.Api.Controllers
                 return BadRequest();
             }
 
-            var result = await _candidateService.Delete(id);
+            var result = await _candidateService.DeleteAsync(id);
 
             return Ok(result);
         }

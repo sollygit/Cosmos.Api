@@ -1,5 +1,5 @@
 ﻿using Cosmos.Api.HubConfig;
-using Cosmos.Api.Interfaces;
+using Cosmos.Api.Services;
 using Cosmos.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -39,7 +39,7 @@ namespace Cosmos.Api.Controllers
 
         async Task<IEnumerable<Chart>> GetChartData()
         {
-            var candidates = await _candidateService.GetAll();
+            var candidates = await _candidateService.GetAsync();
             var technologies = candidates.Select(o => o.Technologies);
             var lstChart = new List<Chart>();
             var dictionary = new Dictionary<string, int>();

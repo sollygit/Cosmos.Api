@@ -20,7 +20,7 @@ export class CandidateService {
   constructor(private http: HttpClient) {
       this.getAllUrl = `${environment.baseUrl}/api/Candidate/All`;
       this.getUrl = `${environment.baseUrl}/api/Candidate/Get`;
-      this.saveUrl = `${environment.baseUrl}/api/Candidate/Add`;
+      this.saveUrl = `${environment.baseUrl}/api/Candidate/Create`;
       this.updateUrl = `${environment.baseUrl}/api/Candidate/Update`;
       this.deleteUrl = `${environment.baseUrl}/api/Candidate`;
   }

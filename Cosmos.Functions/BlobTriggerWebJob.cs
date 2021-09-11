@@ -30,7 +30,7 @@ namespace Cosmos.Functions
             {
                 var jsonRequest = await new StreamReader(myBlob).ReadToEndAsync();
                 var jsonContent = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-                var uriBuilder = new UriBuilder($"{_cosmosApi}/api/Candidate/Add");
+                var uriBuilder = new UriBuilder($"{_cosmosApi}/api/Candidate/Create/Collection");
                 var response = await _client.PostAsync(uriBuilder.Uri, jsonContent);
                 var content = await response.Content.ReadAsStringAsync();
 

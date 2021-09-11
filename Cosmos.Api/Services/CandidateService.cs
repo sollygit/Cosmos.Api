@@ -1,5 +1,4 @@
-﻿using Cosmos.Api.Interfaces;
-using Cosmos.Common;
+﻿using Cosmos.Common;
 using Cosmos.Model;
 using Microsoft.Azure.CosmosRepository;
 using System;
@@ -8,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace Cosmos.Api.Services
 {
+    public interface ICandidateService
+    {
+        ValueTask<IEnumerable<Candidate>> GetAsync();
+        ValueTask<Candidate> GetAsync(string id);
+        ValueTask<Candidate> CreateAsync(Candidate candidate);
+        ValueTask<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates);
+        ValueTask<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate);
+        ValueTask<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDatabase = false);
+        ValueTask<Candidate> DeleteAsync(string id);
+    }
+
     public class CandidateService : ICandidateService
     {
         readonly IRepository<Candidate> _candidateRepository;
@@ -16,12 +26,12 @@ namespace Cosmos.Api.Services
             IRepository<Candidate> candidateRepository) =>
             (_candidateRepository) = (candidateRepository);
 
-        public async ValueTask<IEnumerable<Candidate>> GetAll()
+        public async ValueTask<IEnumerable<Candidate>> GetAsync()
         {
             return await _candidateRepository.GetAsync(o => o.RegistrationDate > new DateTime(2020, 1, 1));
         }
 
-        public async ValueTask<Candidate> Get(string id)
+        public async ValueTask<Candidate> GetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -31,7 +41,7 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.GetAsync(id);
         }
 
-        public async ValueTask<Candidate> Add(Candidate candidate)
+        public async ValueTask<Candidate> CreateAsync(Candidate candidate)
         {
             if (candidate == null)
             {
@@ -41,7 +51,17 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.CreateAsync(candidate);
         }
 
-        public async ValueTask<Candidate> Update(string id, string partitionKey, Candidate candidate)
+        public async ValueTask<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates)
+        {
+            if (candidates == null)
+            {
+                throw new Exception("Candidates cannot be null");
+            }
+
+            return await _candidateRepository.CreateAsync(candidates);
+        }
+
+        public async ValueTask<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate)
         {
             var item = await _candidateRepository.GetAsync(id);
 
@@ -57,7 +77,7 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.UpdateAsync(item);
         }
 
-        public async ValueTask<Candidate> Delete(string id)
+        public async ValueTask<Candidate> DeleteAsync(string id)
         {
             var item = await _candidateRepository.GetAsync(id);
             await _candidateRepository.DeleteAsync(id);
@@ -65,16 +85,14 @@ namespace Cosmos.Api.Services
             return item;
         }
 
-        public async ValueTask<IEnumerable<Candidate>> Generate(int count)
+        public async ValueTask<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDB = false)
         {
             var items = BogusUtil.Candidates(count);
-
-            foreach (var item in items)
+            if (saveToDB)
             {
-                await _candidateRepository.CreateAsync(item);
+                await _candidateRepository.CreateAsync(items);
             }
-
             return items;
-        }
+        }        
     }
 }
