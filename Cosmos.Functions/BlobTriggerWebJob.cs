@@ -1,4 +1,3 @@
-using Cosmos.Model;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,11 +26,6 @@ namespace Cosmos.Functions
         {
             logger.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
 
-            if (myBlob.Length == 0)
-            {
-                logger.LogError($"The JSON file {name} is empty");
-            }
-
             try
             {
                 var jsonRequest = await new StreamReader(myBlob).ReadToEndAsync();
@@ -44,7 +38,7 @@ namespace Cosmos.Functions
             }
             catch (Exception ex)
             {
-                logger.LogError($"Process item from JSON error:\n {ex.Message}");
+                logger.LogError($"JSON content error:\n {ex.Message}");
             }
         }
     }

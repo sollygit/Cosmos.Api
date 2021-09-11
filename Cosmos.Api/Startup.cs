@@ -28,7 +28,7 @@ namespace Cosmos.Api
             });
             services.AddSingleton<ICandidateService, CandidateService>();
             services.AddSingleton<ICloudTableService, CloudTableService>();
-            services.AddSingleton<IStorageService, AzStorageService>();
+            services.AddSingleton<IStorageService, BlobStorageService>();
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy", builder => builder
                     .AllowAnyMethod()

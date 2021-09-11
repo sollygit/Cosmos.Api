@@ -19,14 +19,14 @@ namespace Cosmos.Api.Services
         Task<bool> DeleteIfExistsAsync(string name);
     }
 
-    public class AzStorageService : IStorageService
+    public class BlobStorageService : IStorageService
     {
         readonly string _connectionString;
         private readonly CloudStorageAccount _account;
         private readonly CloudBlobClient _client;
         private readonly CloudBlobContainer _container;
 
-        public AzStorageService(IConfiguration config)
+        public BlobStorageService(IConfiguration config)
         {
             _connectionString = config["StorageConnectionString"];
             _account = CloudStorageAccount.Parse(_connectionString);

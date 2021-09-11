@@ -17,7 +17,7 @@
     <tr *ngFor="let candidate of candidates">
       <td><a [routerLink]="['/candidate/', candidate.id]">{{ candidate.fullName }}</a></td>
       <td>{{ candidate.email }}</td>
-      <td>{{ candidate.registrationDate | date: "dd-MM-y" }}</td>
+      <td>{{ candidate.registrationDate | date: "dd/MM/yy HH:mm" }}</td>
       <td>{{ candidate.technologies }}</td>
       <td><a [routerLink]="['/candidate/edit/', candidate.id]" class="btn btn-link btn-sm float-right">Edit</a></td>
       <td><a [routerLink]="" (click)="delete(candidate.id)" class="btn btn-link btn-sm float-right">Delete</a></td>
