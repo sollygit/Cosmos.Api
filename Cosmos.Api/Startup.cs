@@ -52,7 +52,7 @@ namespace Cosmos.Api
                         Url = new Uri("https://github.com/sollygit/Cosmos.Api")
                     }
                 });
-                c.SwaggerDoc("v2", new OpenApiInfo { Version = "v2", Title = "File Upload API" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Version = "v2", Title = "Blob Storage API" });
             });
         }
 

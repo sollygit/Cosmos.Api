@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Cosmos.Api.Services;
+﻿using Cosmos.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cosmos.Api.Controllers
 {
@@ -12,38 +11,39 @@ namespace Cosmos.Api.Controllers
     [ApiExplorerSettings(GroupName = "v2")]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class FileController : ControllerBase
+    public class BlobController : ControllerBase
     {
-        readonly ILogger<FileController> _logger;
+        readonly ILogger<BlobController> _logger;
         readonly IStorageService _storageService;
 
-        public FileController(ILogger<FileController> logger, IStorageService storageService) =>
+        public BlobController(ILogger<BlobController> logger, IStorageService storageService) =>
             (_logger, _storageService) = (logger, storageService);
 
-        [HttpGet("{id}", Name = "Download a File by FileID")]
-        public async Task<IActionResult> Download(int id)
+        [HttpGet("{name}")]
+        public async Task<IActionResult> Get(string name)
         {
-            var file = File(Encoding.ASCII.GetBytes("hello world"), "text/plain", $"file-{id}.txt");
-            return await Task.FromResult(file);
+            var item = await _storageService.GetBlobItemAsync(name);
+            if (item == null) return NotFound($"Item '{name}' not found");
+            return Ok(item);
         }
 
-        [HttpGet("Blob/items")]
-        public async Task<IActionResult> BlobItems()
+        [HttpGet("[action]")]
+        public async Task<IActionResult> All()
         {
             var items = await _storageService.GetBlobItemsAsync();
             return Ok(items);
         }
 
-        [HttpPost("single-file")]
+        [HttpPost("Single")]
         public async Task<IActionResult> Upload(IFormFile file)
         {
             if (file == null) return BadRequest("A file is required!");
             _logger.LogInformation($"Upload file: '{file.FileName}'");
-            var filename = await _storageService.UploadAsync(file);
+            var filename = await _storageService.UploadFromStreamAsync(file);
             return Ok(filename);
         }
 
-        [HttpPost("two-files")]
+        [HttpPost("Double")]
         public async Task<IActionResult> Upload(IFormFile file1, IFormFile file2)
         {
             _logger.LogInformation($"validating the file {file1.FileName}");
@@ -54,7 +54,7 @@ namespace Cosmos.Api.Controllers
             return await Task.FromResult(new OkObjectResult("two-files upload success"));
         }
 
-        [HttpPost("multiple-files")]
+        [HttpPost("Multiple")]
         public async Task<IActionResult> Upload(List<IFormFile> files)
         {
             _logger.LogInformation($"validating {files.Count} files");
@@ -67,13 +67,14 @@ namespace Cosmos.Api.Controllers
             return await Task.FromResult(new OkObjectResult("multiple-files upload success"));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{name}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string name)
         {
-            _logger.LogInformation($"deleting file ID=[{id}]");
-            await Task.Delay(1500);
-            return await Task.FromResult(new OkObjectResult(true));
+            _logger.LogInformation($"Deleting filename '{name}'");
+            var result = await _storageService.DeleteIfExistsAsync(name);
+            if (result == false) return NotFound($"Item '{name}' not found");
+            return Ok(result);
         }
     }
 }

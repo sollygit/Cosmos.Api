@@ -1,5 +1,4 @@
-﻿using Cosmos.Common;
-using Cosmos.Model;
+﻿using Cosmos.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
@@ -14,8 +13,10 @@ namespace Cosmos.Api.Services
 {
     public interface IStorageService
     {
-        Task<string> UploadAsync(IFormFile file);
+        Task<string> UploadFromStreamAsync(IFormFile file);
         Task <IEnumerable<UploadedFile>> GetBlobItemsAsync();
+        Task<UploadedFile> GetBlobItemAsync(string name);
+        Task<bool> DeleteIfExistsAsync(string name);
     }
 
     public class AzStorageService : IStorageService
@@ -33,10 +34,9 @@ namespace Cosmos.Api.Services
             _container = _client.GetContainerReference("blober");
         }
 
-        public async Task<string> UploadAsync(IFormFile file)
+        public async Task<string> UploadFromStreamAsync(IFormFile file)
         {
-            var id = Guid.NewGuid();
-            var fileName = $"{Constants.RAW_PREFIX}_{id}{Path.GetExtension(file.FileName)}".ToUpper();
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}".ToUpper();
             var blob = _container.GetBlockBlobReference(fileName);
             await blob.UploadFromStreamAsync(file.OpenReadStream());
             return fileName;
@@ -51,12 +51,43 @@ namespace Cosmos.Api.Services
                 .Select(o => {
                     return new UploadedFile
                     {
-                        FileName = o.Name,
+                        Name = o.Name,
                         Uri = o.Uri.ToString(),
                         LastModified = o.Properties.LastModified
                     };
                 });
             return items;
+        }
+
+        public async Task<UploadedFile> GetBlobItemAsync(string name)
+        {
+            var token = new BlobContinuationToken();
+            var blobList = await _container.ListBlobsSegmentedAsync(token);
+            var item = blobList.Results
+                .Select(o => o as CloudBlockBlob)
+                .Where(o => o.Name == name)
+                .FirstOrDefault();
+
+            if (item == null) return null;
+
+            return new UploadedFile {
+                Name = item?.Name,
+                Uri = item?.Uri.ToString(),
+                LastModified = item?.Properties.LastModified
+            };
+        }
+
+        public async Task<bool> DeleteIfExistsAsync(string name)
+        {
+            var token = new BlobContinuationToken();
+            var blobList = await _container.ListBlobsSegmentedAsync(token);
+            var item = blobList.Results
+                .Select(o => o as CloudBlockBlob)
+                .Where(o => o.Name == name)
+                .FirstOrDefault();
+
+            if (item == null) return false;
+            return await item.DeleteIfExistsAsync();
         }
     }
 }

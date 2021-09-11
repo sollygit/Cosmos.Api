@@ -8,7 +8,5 @@ namespace Cosmos.Common
         {
             "Angular", "Azure", "Blazor", "C#", "MVC", "SQL"
         };
-
-        public static string RAW_PREFIX = "RAW";
     }
 }
