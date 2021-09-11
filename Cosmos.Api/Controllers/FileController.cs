@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Cosmos.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,18 +14,12 @@ namespace Cosmos.Api.Controllers
     [Route("api/[controller]")]
     public class FileController : ControllerBase
     {
-        private readonly ILogger<FileController> _logger;
+        readonly ILogger<FileController> _logger;
+        readonly IStorageService _storageService;
 
-        public FileController(ILogger<FileController> logger)
-        {
-            _logger = logger;
-        }
+        public FileController(ILogger<FileController> logger, IStorageService storageService) =>
+            (_logger, _storageService) = (logger, storageService);
 
-        /// <summary>
-        /// Download a file. This demo will generate a txt file.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}", Name = "Download a File by FileID")]
         public async Task<IActionResult> Download(int id)
         {
@@ -32,27 +27,22 @@ namespace Cosmos.Api.Controllers
             return await Task.FromResult(file);
         }
 
-        /// <summary>
-        /// Upload a file. This demo is dummy and only waits 2 seconds.
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        [HttpGet("Blob/items")]
+        public async Task<IActionResult> BlobItems()
+        {
+            var items = await _storageService.GetBlobItemsAsync();
+            return Ok(items);
+        }
+
         [HttpPost("single-file")]
         public async Task<IActionResult> Upload(IFormFile file)
         {
-            _logger.LogInformation($"validating the file {file.FileName}");
-            _logger.LogInformation("saving file");
-            await Task.Delay(2000); // Validate file type/format/size, scan virus, save it to a storage
-            _logger.LogInformation("file saved.");
-            return await Task.FromResult(new OkObjectResult($"Filename '{file.FileName}' upload success"));
+            if (file == null) return BadRequest("A file is required!");
+            _logger.LogInformation($"Upload file: '{file.FileName}'");
+            var filename = await _storageService.UploadAsync(file);
+            return Ok(filename);
         }
 
-        /// <summary>
-        /// Upload two files. This demo is dummy and only waits 2 seconds.
-        /// </summary>
-        /// <param name="file1"></param>
-        /// <param name="file2"></param>
-        /// <returns></returns>
         [HttpPost("two-files")]
         public async Task<IActionResult> Upload(IFormFile file1, IFormFile file2)
         {
@@ -64,11 +54,6 @@ namespace Cosmos.Api.Controllers
             return await Task.FromResult(new OkObjectResult("two-files upload success"));
         }
 
-        /// <summary>
-        /// Upload multiple files. This demo is dummy and only waits 2 seconds.
-        /// </summary>
-        /// <param name="files"></param>
-        /// <returns></returns>
         [HttpPost("multiple-files")]
         public async Task<IActionResult> Upload(List<IFormFile> files)
         {

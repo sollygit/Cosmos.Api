@@ -23,7 +23,7 @@ namespace Cosmos.Api.Services
         readonly IConfiguration _configuration;
         readonly string _storageConnectionString;
         const string TABLE_NAME = "board";
-        const string PARTITION_KEY = "September";
+        const string PARTITION_KEY = "BOARD";
         CloudTable table;
 
         public CloudTableService(IConfiguration configuration)
