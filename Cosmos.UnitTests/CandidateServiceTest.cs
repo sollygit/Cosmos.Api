@@ -1,4 +1,4 @@
-﻿using Cosmos.Api.Interfaces;
+﻿using Cosmos.Api.Services;
 using Cosmos.Model;
 using Moq;
 using NUnit.Framework;
@@ -33,14 +33,14 @@ namespace Cosmos.UnitTests
         {
             // Arrange
             var mockService = new Mock<ICandidateService>();
-            mockService.Setup(x => x.GetAll()).Returns(async () =>
+            mockService.Setup(x => x.GetAsync()).Returns(async () =>
             {
                 await Task.Yield();
                 return candidates;
             });
 
             // Act
-            var actual = await mockService.Object.GetAll();
+            var actual = await mockService.Object.GetAsync();
 
             // Assert
             Assert.AreEqual(candidates.Count(), actual.Count());
@@ -59,15 +59,15 @@ namespace Cosmos.UnitTests
             };
 
             var mockService = new Mock<ICandidateService>();
-            mockService.Setup(x => x.Get(candidate.Id)).Returns(async () =>
+            mockService.Setup(x => x.GetAsync(candidate.Id)).Returns(async () =>
             {
                 await Task.Yield();
                 return candidate;
             });
 
             // Act
-            await mockService.Object.Add(candidate);
-            var actual = await mockService.Object.Get(candidate.Id);
+            await mockService.Object.CreateAsync(candidate);
+            var actual = await mockService.Object.GetAsync(candidate.Id);
 
             // Assert
             Assert.AreEqual(candidate, actual);
@@ -80,17 +80,17 @@ namespace Cosmos.UnitTests
             var candidateId = Guid.NewGuid().ToString();
             var mockService = new Mock<ICandidateService>();
 
-            mockService.Setup(x => x.Get(candidateId)).Returns(async () =>
+            mockService.Setup(x => x.GetAsync(candidateId)).Returns(async () =>
             {
                 await Task.Yield();
                 return null;
             });
 
             // Act
-            var actual = await mockService.Object.Get(candidateId);
+            var actual = await mockService.Object.GetAsync(candidateId);
 
             // Assert
-            mockService.Verify(m => m.Get(candidateId), Times.AtLeastOnce());
+            mockService.Verify(m => m.GetAsync(candidateId), Times.AtLeastOnce());
             Assert.AreEqual(null, actual);
         }
 
@@ -107,14 +107,14 @@ namespace Cosmos.UnitTests
             };
 
             var mockService = new Mock<ICandidateService>();
-            mockService.Setup(x => x.Add(It.IsAny<Candidate>())).Returns(async () =>
+            mockService.Setup(x => x.CreateAsync(It.IsAny<Candidate>())).Returns(async () =>
             {
                 await Task.Yield();
                 return candidate;
             });
 
             // Act
-            var actual = await mockService.Object.Add(candidate);
+            var actual = await mockService.Object.CreateAsync(candidate);
 
             // Assert
             Assert.AreEqual(candidate, actual);
@@ -168,17 +168,17 @@ namespace Cosmos.UnitTests
             };
 
             var mockService = new Mock<ICandidateService>();
-            mockService.Setup(x => x.Update(candidate.Id, candidate.LastName, It.IsAny<Candidate>())).Returns(async () =>
+            mockService.Setup(x => x.UpdateAsync(candidate.Id, candidate.LastName, It.IsAny<Candidate>())).Returns(async () =>
             {
                 await Task.Yield();
                 return candidate;
             });
 
             // Act
-            await mockService.Object.Update(candidate.Id, candidate.LastName, candidate);
+            await mockService.Object.UpdateAsync(candidate.Id, candidate.LastName, candidate);
 
             // Assert
-            mockService.Verify(m => m.Update(candidate.Id, candidate.LastName, It.IsAny<Candidate>()), Times.AtLeastOnce());
+            mockService.Verify(m => m.UpdateAsync(candidate.Id, candidate.LastName, It.IsAny<Candidate>()), Times.AtLeastOnce());
             Assert.That(candidate.FirstName, Is.EqualTo("Solly"));
         }
 
@@ -195,26 +195,26 @@ namespace Cosmos.UnitTests
             };
 
             var mockService = new Mock<ICandidateService>();
-            mockService.Setup(x => x.Delete(candidate.Id)).Returns(async () =>
+            mockService.Setup(x => x.DeleteAsync(candidate.Id)).Returns(async () =>
             {
                 await Task.Yield();
                 return candidate;
             });
 
             // Act
-            await mockService.Object.Delete(candidate.Id);
-            var actual = await mockService.Object.Get(candidate.Id);
+            await mockService.Object.DeleteAsync(candidate.Id);
+            var actual = await mockService.Object.GetAsync(candidate.Id);
 
             // Assert
-            mockService.Verify(m => m.Delete(candidate.Id));
-            mockService.Verify(m => m.Get(candidate.Id));
+            mockService.Verify(m => m.DeleteAsync(candidate.Id));
+            mockService.Verify(m => m.GetAsync(candidate.Id));
             Assert.AreEqual(null, actual);
         }
 
         static async Task Add_ThrowException(Candidate candidate, string errorMessage)
         {
             var mockService = new Mock<ICandidateService>();
-            await mockService.Object.Add(candidate).ConfigureAwait(false);
+            await mockService.Object.CreateAsync(candidate).ConfigureAwait(false);
             throw new Exception(errorMessage);
         }
     }
