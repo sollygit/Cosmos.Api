@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule, MatButtonModule, MatSelectModule, MatCheckboxModule,
          MatIconModule, MatProgressBarModule, MatSlideToggleModule } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 import { SessionStorageService } from './services/sessionStorage.service';
 import { CandidateService } from './services/candidate.service';
 import { ChartService } from './services/chart.service';
@@ -52,7 +52,8 @@ import { BoardComponent } from './components/board/board.component';
     ChartService,
     CandidateSignalRService,
     ChartSignalRService,
-    BoardSignalRService
+    BoardSignalRService,
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })
