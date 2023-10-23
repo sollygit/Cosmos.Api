@@ -7,6 +7,7 @@
 | ![GraphiQL](https://user-images.githubusercontent.com/30820950/73920150-91a47500-4910-11ea-9a82-b82cc39e1b97.png) |
 
 - Build real-time Apps with Azure Functions and Azure SignalR Service
+- Run Azure Cosmos Emulator and Azure Storage Explorer locally
 
 - A change is made in a Cosmos DB collection
   - New document added to collection.
