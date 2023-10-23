@@ -62,7 +62,7 @@ namespace Cosmos.Api.Controllers
                 lstChart.Add(new Chart { Label = key, Data = new int[] { dictionary[key] } });
             });
 
-            return lstChart;
+            return lstChart.OrderBy(o => o.Label);
         }
     }
 }
