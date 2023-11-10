@@ -7,7 +7,7 @@
 | ![GraphiQL](https://user-images.githubusercontent.com/30820950/73920150-91a47500-4910-11ea-9a82-b82cc39e1b97.png) |
 
 - Build real-time Apps with Azure Functions and Azure SignalR Service
-- Use the Azurite emulator for local Azure Storage development: 'azurite --blobHost 127.0.0.1'
+- Run Azure Storage Emulator and Azure Cosmos DB Emulator locally for smooth integration.
 
 - A change is made in a Cosmos DB collection
   - New document added to collection.
