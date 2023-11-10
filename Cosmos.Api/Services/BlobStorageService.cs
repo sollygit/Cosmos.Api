@@ -1,6 +1,7 @@
-﻿using Cosmos.Model;
+﻿using Cosmos.Api.Configurations;
+using Cosmos.Model;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
@@ -21,15 +22,15 @@ namespace Cosmos.Api.Services
 
     public class BlobStorageService : IStorageService
     {
-        readonly string _connectionString;
+        private readonly StorageConfig _config;
         private readonly CloudStorageAccount _account;
         private readonly CloudBlobClient _client;
         private readonly CloudBlobContainer _container;
 
-        public BlobStorageService(IConfiguration config)
+        public BlobStorageService(IOptions<StorageConfig> config)
         {
-            _connectionString = config["StorageConnectionString"];
-            _account = CloudStorageAccount.Parse(_connectionString);
+            _config = config.Value;
+            _account = CloudStorageAccount.Parse(_config.ConnectionString);
             _client = _account.CreateCloudBlobClient();
             _container = _client.GetContainerReference("blober");
         }

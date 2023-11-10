@@ -1,3 +1,4 @@
+using Cosmos.Api.Configurations;
 using Cosmos.Api.HubConfig;
 using Cosmos.Api.Services;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +23,9 @@ namespace Cosmos.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configurations
+            services.Configure<StorageConfig>(Configuration.GetSection("StorageConfig"));
+
             services.AddCosmosRepository(options => {
                 options.CosmosConnectionString = Configuration["RepositoryOptions:CosmosConnectionString"];
             });
