@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Cosmos.Api.Controllers
@@ -167,6 +169,19 @@ namespace Cosmos.Api.Controllers
             var result = await _candidateService.DeleteAsync(id);
 
             return Ok(result);
+        }
+
+        [HttpDelete("All")]
+        public async Task<IActionResult> Delete()
+        {
+            var candidates = await _candidateService.GetAsync();
+
+            foreach (var candidate in candidates)
+            {
+                await _candidateService.DeleteAsync(candidate.Id);
+            }
+
+            return Ok(new { Message = $"{candidates.Count()} candidates have been deleted" });
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
