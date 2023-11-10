@@ -24,7 +24,7 @@ namespace Cosmos.Functions
         {
             if (myTimer == null) await Task.FromResult(HttpStatusCode.BadRequest);
 
-            logger.LogInformation($"timerTriggerBoardData on {DateTime.Now}");
+            logger.LogInformation("timerTriggerBoardData on {Date}", DateTime.Now);
             var response = await _client.GetAsync($"{_cosmosApi}/api/board"); // Invoke 'timerTriggerBoardData'
             logger.LogInformation($"SignalR Board Response: {response.StatusCode}");
 
