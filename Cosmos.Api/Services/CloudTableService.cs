@@ -1,8 +1,9 @@
-﻿using Cosmos.Api.Models;
+﻿using Cosmos.Api.Configurations;
+using Cosmos.Api.Models;
 using Cosmos.Common;
 using Cosmos.Model;
 using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,17 +21,14 @@ namespace Cosmos.Api.Services
 
     public class CloudTableService : ICloudTableService
     {
-        readonly IConfiguration _configuration;
-        readonly string _storageConnectionString;
+        readonly StorageConfig _config;
         const string TABLE_NAME = "board";
         const string PARTITION_KEY = "BOARD";
         CloudTable table;
 
-        public CloudTableService(IConfiguration configuration)
+        public CloudTableService(IOptions<StorageConfig> config)
         {
-            _configuration = configuration;
-            _storageConnectionString = _configuration["StorageConnectionString"];
-
+            _config = config.Value;
             AsyncHelper.RunAsync(async () => {
                 await CreateIfNotExistsAsync(TABLE_NAME);
             });
@@ -38,7 +36,7 @@ namespace Cosmos.Api.Services
 
         public async Task<bool> CreateIfNotExistsAsync(string tableName)
         {
-            var storageAccount = CloudStorageAccount.Parse(_storageConnectionString);
+            var storageAccount = CloudStorageAccount.Parse(_config.ConnectionString);
             var tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
             table = tableClient.GetTableReference(tableName);
             return await table.CreateIfNotExistsAsync();
