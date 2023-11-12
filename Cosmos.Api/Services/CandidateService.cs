@@ -3,6 +3,7 @@ using Cosmos.Model;
 using Microsoft.Azure.CosmosRepository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cosmos.Api.Services
@@ -13,8 +14,9 @@ namespace Cosmos.Api.Services
         Task<Candidate> GetAsync(string id);
         Task<Candidate> CreateAsync(Candidate candidate);
         Task<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates);
-        Task<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate);
         Task<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDatabase = false);
+        Task<Candidate> CreateDummyAsync();
+        Task<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate);
         Task<Candidate> DeleteAsync(string id);
     }
 
@@ -22,8 +24,7 @@ namespace Cosmos.Api.Services
     {
         readonly IRepository<Candidate> _candidateRepository;
 
-        public CandidateService(
-            IRepository<Candidate> candidateRepository) =>
+        public CandidateService( IRepository<Candidate> candidateRepository) =>
             (_candidateRepository) = (candidateRepository);
 
         public async Task<IEnumerable<Candidate>> GetAsync()
@@ -61,6 +62,25 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.CreateAsync(candidates);
         }
 
+        public async Task<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDB)
+        {
+            var items = BogusUtil.Candidates(count);
+            if (saveToDB)
+            {
+                await _candidateRepository.CreateAsync(items);
+            }
+            return items;
+        }
+
+        public async Task<Candidate> CreateDummyAsync()
+        {
+            var items = BogusUtil.Candidates(1);
+            var dummy = items.FirstOrDefault();
+            dummy.IsActive = false;
+            dummy.Technologies = null;
+            return await _candidateRepository.CreateAsync(dummy);
+        }
+
         public async Task<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate)
         {
             var item = await _candidateRepository.GetAsync(id);
@@ -84,15 +104,5 @@ namespace Cosmos.Api.Services
 
             return item;
         }
-
-        public async Task<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDB = false)
-        {
-            var items = BogusUtil.Candidates(count);
-            if (saveToDB)
-            {
-                await _candidateRepository.CreateAsync(items);
-            }
-            return items;
-        }        
     }
 }

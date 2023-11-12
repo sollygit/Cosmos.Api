@@ -181,6 +181,9 @@ namespace Cosmos.Api.Controllers
                 await _candidateService.DeleteAsync(candidate.Id);
             }
 
+            // Insert a dummy candidate to allow for a change feed trigger
+            await _candidateService.CreateDummyAsync();
+
             return Ok(new { Message = $"{candidates.Count()} candidates have been deleted" });
         }
 
