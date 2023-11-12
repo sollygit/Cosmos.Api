@@ -9,13 +9,13 @@ namespace Cosmos.Api.Services
 {
     public interface ICandidateService
     {
-        ValueTask<IEnumerable<Candidate>> GetAsync();
-        ValueTask<Candidate> GetAsync(string id);
-        ValueTask<Candidate> CreateAsync(Candidate candidate);
-        ValueTask<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates);
-        ValueTask<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate);
-        ValueTask<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDatabase = false);
-        ValueTask<Candidate> DeleteAsync(string id);
+        Task<IEnumerable<Candidate>> GetAsync();
+        Task<Candidate> GetAsync(string id);
+        Task<Candidate> CreateAsync(Candidate candidate);
+        Task<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates);
+        Task<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate);
+        Task<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDatabase = false);
+        Task<Candidate> DeleteAsync(string id);
     }
 
     public class CandidateService : ICandidateService
@@ -26,12 +26,12 @@ namespace Cosmos.Api.Services
             IRepository<Candidate> candidateRepository) =>
             (_candidateRepository) = (candidateRepository);
 
-        public async ValueTask<IEnumerable<Candidate>> GetAsync()
+        public async Task<IEnumerable<Candidate>> GetAsync()
         {
             return await _candidateRepository.GetAsync(o => o.RegistrationDate > new DateTime(2020, 1, 1));
         }
 
-        public async ValueTask<Candidate> GetAsync(string id)
+        public async Task<Candidate> GetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -41,7 +41,7 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.GetAsync(id);
         }
 
-        public async ValueTask<Candidate> CreateAsync(Candidate candidate)
+        public async Task<Candidate> CreateAsync(Candidate candidate)
         {
             if (candidate == null)
             {
@@ -51,7 +51,7 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.CreateAsync(candidate);
         }
 
-        public async ValueTask<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates)
+        public async Task<IEnumerable<Candidate>> CreateAsync(IEnumerable<Candidate> candidates)
         {
             if (candidates == null)
             {
@@ -61,7 +61,7 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.CreateAsync(candidates);
         }
 
-        public async ValueTask<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate)
+        public async Task<Candidate> UpdateAsync(string id, string partitionKey, Candidate candidate)
         {
             var item = await _candidateRepository.GetAsync(id);
 
@@ -77,7 +77,7 @@ namespace Cosmos.Api.Services
             return await _candidateRepository.UpdateAsync(item);
         }
 
-        public async ValueTask<Candidate> DeleteAsync(string id)
+        public async Task<Candidate> DeleteAsync(string id)
         {
             var item = await _candidateRepository.GetAsync(id);
             await _candidateRepository.DeleteAsync(id);
@@ -85,7 +85,7 @@ namespace Cosmos.Api.Services
             return item;
         }
 
-        public async ValueTask<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDB = false)
+        public async Task<IEnumerable<Candidate>> CreateAsync(int count, bool saveToDB = false)
         {
             var items = BogusUtil.Candidates(count);
             if (saveToDB)
