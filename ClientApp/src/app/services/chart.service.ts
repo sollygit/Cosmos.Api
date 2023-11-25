@@ -15,7 +15,7 @@ export class ChartService {
       'Content-Type': 'application/json'
     })
   };
-  
+
   constructor(private http: HttpClient) {
     this.getChartDataUrl = `${environment.baseUrl}/api/Chart/Data`;
     this.getBoardDataUrl = `${environment.baseUrl}/api/Board/Data`;
@@ -53,5 +53,5 @@ export class ChartService {
     console.log(errorMessage);
     return throwError(errorMessage);
   }
-  
+
 }

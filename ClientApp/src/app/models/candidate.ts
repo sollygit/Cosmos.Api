@@ -1,4 +1,4 @@
-import { DecimalPipe } from "@angular/common";
+import { DecimalPipe } from '@angular/common';
 
 export class Candidate {
   id?: string;

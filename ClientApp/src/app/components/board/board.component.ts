@@ -33,8 +33,9 @@ export class BoardComponent implements OnInit {
     { backgroundColor: '#E5E7E9' }
   ];
 
-  constructor(private chartService: ChartService,
-    private signalRService: BoardSignalRService, 
+  constructor(
+    private chartService: ChartService,
+    private signalRService: BoardSignalRService,
     private http: HttpClient) { }
 
   ngOnInit(): void {
