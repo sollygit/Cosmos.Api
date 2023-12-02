@@ -7,7 +7,8 @@
 | ![GraphiQL](https://user-images.githubusercontent.com/30820950/73920150-91a47500-4910-11ea-9a82-b82cc39e1b97.png) |
 
 - Build real-time Apps with Azure Functions and Azure SignalR Service
-- Run Azure Storage Emulator and Azure Cosmos DB Emulator locally for smooth integration.
+- Run Azurite Storage Emulator and Azure Storage Explorer for smooth integration.
+- Run Azure Cosmos DB Emulator to manage containers locally for a fast NoSQL database.
 
 - A change is made in a Cosmos DB collection
   - New document added to collection.
@@ -18,6 +19,15 @@
 - The SignalR Service output binding publishes a message to SignalR Service
 - SignalR Service publishes the message to all connected clients
 
+## Terminal Snippets
+
 ```bash
+# API
 dotnet run
+
+# Azurite storage emulator startup on port 10000
+& 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\Azure Storage Emulator\azurite.exe' --location 'C:\Users\Solly\AppData\Local\.vstools\azurite' --debug 'C:\Users\Solly\AppData\Local\.vstools\azurite\debug.log' --skipApiVersionCheck
+
+# Azure Functions
+func start
 ```
