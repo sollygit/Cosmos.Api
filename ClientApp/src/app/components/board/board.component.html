@@ -1,0 +1,15 @@
+<div style="display: block" *ngIf='boardData'>
+    <canvas baseChart
+    [datasets]="boardData"
+    [labels]="chartLabels"
+    [options]="chartOptions"
+    [legend]="chartLegend"
+    [chartType]="chartType"
+    [colors]="colors"></canvas>
+</div>
+<br><br>
+<ul>
+  <li *ngFor='let data of boardData'>
+    <strong>Label: </strong> {{data.label}} - <strong>Value: </strong> {{data.data[0]}}
+  </li>
+</ul>

@@ -1,0 +1,26 @@
+<h4>Candidates</h4>
+<mat-progress-bar *ngIf="!candidates" mode="indeterminate"></mat-progress-bar>
+<mat-slide-toggle class="float-left mt-2" (click)="getCandidates()" [(ngModel)]="isActive">Active</mat-slide-toggle>
+<a [routerLink]="['/add']" class="btn btn-success float-right mb-3">Create</a>
+<table [@fadeInOut] class="table table-sm table-hover" *ngIf="candidates?.length > 0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Registration Date</th>
+      <th>Technologies</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let candidate of candidates">
+      <td><a [routerLink]="['/candidate/', candidate.id]">{{ candidate.fullName }}</a></td>
+      <td>{{ candidate.email }}</td>
+      <td>{{ candidate.registrationDate | date: "dd/MM/yy HH:mm" }}</td>
+      <td>{{ candidate.technologies }}</td>
+      <td><a [routerLink]="['/candidate/edit/', candidate.id]" class="btn btn-link btn-sm float-right">Edit</a></td>
+      <td><a [routerLink]="" (click)="delete(candidate.id)" class="btn btn-link btn-sm float-right">Delete</a></td>
+    </tr>
+  </tbody>
+</table>
