@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cosmos.Api\Cosmos.Api.csproj" />
+    <ProjectReference Include="..\Cosmos.API\Cosmos.API.csproj" />
   </ItemGroup>
 
 </Project>
