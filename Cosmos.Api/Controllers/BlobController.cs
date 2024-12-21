@@ -43,17 +43,6 @@ namespace Cosmos.Api.Controllers
             return Ok(filename);
         }
 
-        [HttpPost("Double")]
-        public async Task<IActionResult> Upload(IFormFile file1, IFormFile file2)
-        {
-            _logger.LogInformation($"validating the file {file1.FileName}");
-            _logger.LogInformation($"validating the file {file2.FileName}");
-            _logger.LogInformation("saving files");
-            await Task.Delay(2000);
-            _logger.LogInformation("files saved.");
-            return await Task.FromResult(new OkObjectResult("two-files upload success"));
-        }
-
         [HttpPost("Multiple")]
         public async Task<IActionResult> Upload(List<IFormFile> files)
         {
