@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.UnitTests", "Cosmos.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0751EAA5-FD59-4B1B-B693-FEF474E7CC98}"
 	ProjectSection(SolutionItems) = preProject
-		Solution Items\blob-items.json = Solution Items\blob-items.json
-		Solution Items\Master_TemplateArray.docx = Solution Items\Master_TemplateArray.docx
-		Solution Items\QICDAE_PR212_2023_06_30_FUNDCOMM.pdf = Solution Items\QICDAE_PR212_2023_06_30_FUNDCOMM.pdf
+		Solution Items\candidates.json = Solution Items\candidates.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cosmos.FunctionsApp", "Cosmos.FunctionsApp\Cosmos.FunctionsApp.csproj", "{E394F4F6-298C-478A-A188-4872C9CE6347}"
